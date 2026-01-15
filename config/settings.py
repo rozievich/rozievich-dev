@@ -85,6 +85,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '15/min',
+        'user': '120/min'
+    }
 }
 
 

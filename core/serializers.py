@@ -38,3 +38,4 @@ class MessageSerializer(serializers.ModelSerializer):
             'id', 'name', 'email', 'subject',
             'body', 'is_read', 'sent_at'
         ]
+        read_only_fields = ['is_read', 'sent_at']
