@@ -137,107 +137,121 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
-    # Umumiy ko‘rinish
-    "site_title": "Rozievich Admin",
-    "site_header": "Rozievich Portfolio",
-    "site_brand": "Rozievich",
+    # ===== Branding =====
+    "site_title": "rozievich Portfolio",
+    "site_header": "Portfolio Admin Panel",
+    "site_brand": "rozievich",
     "site_logo": None,
     "site_icon": None,
-    "welcome_sign": "Xush kelibsiz, admin panelga!",
-
-    "default_ui_tweaks": {
-        "sidebar_nav_small_text": False,
-        "accent": "accent-primary",
-        "navbar": "navbar-white navbar-light",
-        "navbar_fixed": True,
-        "layout_boxed": False,
-        "footer_fixed": False,
-        "sidebar_fixed": True,
-        "sidebar": "sidebar-dark-primary",
-        "sidebar_nav_small_text": False,
-        "sidebar_disable_expand": False,
-        "sidebar_nav_child_indent": False,
-        "sidebar_nav_compact_style": False,
-        "sidebar_nav_legacy_style": False,
-        "sidebar_nav_flat_style": True,      # flat ko‘rinish chiroyli
-        "theme": "default",                  # yoki darkly, cerulean, cosmo, flatly, journal, litera, lumen, lux, materia, minty, pulse, sandstone, simplex, sketchy, slate, solar, spacelab, superhero, united, yeti
-        "dark_mode_theme": "darkly",         # qorong‘i rejim uchun yaxshi tanlov
-        "button_classes": {
-            "primary": "btn-outline-primary",
-            "secondary": "btn-outline-secondary",
-            "info": "btn-outline-info",
-            "warning": "btn-outline-warning",
-            "danger": "btn-outline-danger",
-            "success": "btn-outline-success"
-        }
-    },
-
-    # Top menu (foydali bo‘limlar uchun)
+    "welcome_sign": "Xush kelibsiz, rozievich Admin Panelga!",
+    "copyright": "Oybek Rozievich © 2025-2026",
+    
+    # ===== Top Menu =====
     "topmenu_links": [
-        {"name": "📱 Asosiy sayt", "url": "https://dev.rozievich.uz", "new_window": True},
+        {"name": "🏠 Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "📱 Website", "url": "https://dev.rozievich.uz", "new_window": True},
         {"name": "🐙 GitHub", "url": "https://github.com/rozievich", "new_window": True},
-        {"name": "📧 Email", "url": "mailto:oybek@rozievich.uz", "new_window": False},
+        {"name": "📧 Email", "url": "mailto:oybekrozievich@gmail.com", "new_window": True},
     ],
 
-    # Sidebar menyuni to‘liq sozlash (eng foydali qism)
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "hide_apps": [],   # keraksiz app'larni yashirish mumkin
-    "hide_models": [],
+    # ===== Search Settings =====
+    "search_model": [
+        "core.Skill",
+        "core.Experience",
+        "core.Portfolio",
+        "core.Message",
+    ],
 
-
-    # Icons – modellarga mos belgi qo‘yish juda muhim!
+    # ===== Icons for Models =====
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
         "core.skill": "fas fa-tools",
         "core.experience": "fas fa-briefcase",
         "core.portfolio": "fas fa-images",
         "core.message": "fas fa-envelope",
     },
 
-    # Qo'shimcha funksiyalar
-    "related_modal_active": True,           # modal oynalar ochilishi
-    "show_ui_builder": True,                # live UI sozlash (admin ichida)
-    "changeform_format": "horizontal_tabs", # yoki single, vertical_tabs
+    # ===== Sidebar Settings =====
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "show_search": True,
+    "show_recent": True,
+    "sidebar_nav_compact_style": False,
+    
+    # ===== UI Builder & Features =====
+    "show_ui_builder": True,
+    "related_modal_active": True,
+    "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {
-        "core.portfolio": "collapsible", # portfolio uchun alohida ko'rinish
+        "core.experience": "vertical_tabs",
+        "core.portfolio": "collapsible",
     },
 
-    # Copyright va footer | Rozievich Portfolio
-    "copyright": "Oybek © 2025-2026",
-    "show_ui_builder": True,
+    # ===== Custom Links (optional) =====
+    "custom_links": {
+        "core": [
+            {
+                "name": "📊 Analytics",
+                "url": "admin:index",
+                "icon": "fas fa-chart-bar",
+                "permissions": ["auth.view_user"]
+            }
+        ]
+    },
+
+    # ===== Order Models =====
+    "order_with_respect_to": [
+        "core.Skill",
+        "core.Experience",
+        "core.Portfolio",
+        "core.Message",
+    ],
+
+    # ===== Hide Models =====
+    "hide_models": ["auth.group"],
+
+    # ===== Show Admin Object Tools =====
+    "show_admin_object_tools": True,
 }
 
+
 JAZZMIN_UI_TWEAKS = {
+    # ===== Theme Settings =====
+    "theme": "lux",                          # Modern & elegant theme
+    "navbar": "navbar-white navbar-light",
+    "sidebar": "sidebar-dark-primary",
+    "brand_colour": "navbar-primary",
+    "accent": "accent-primary",
+
+    # ===== Text Sizes =====
     "navbar_small_text": False,
-    "footer_small_text": False,
+    "sidebar_nav_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": False,
-    "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light",
-    "no_navbar_border": False,
-    "navbar_fixed": True,
+    "footer_small_text": False,
+
+    # ===== Layout Settings =====
     "layout_boxed": False,
     "footer_fixed": False,
+    "navbar_fixed": True,
     "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-primary",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": True,
+
+    # ===== Sidebar Navigation =====
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": True,
-    "theme": "default",
-    "dark_mode_theme": "darkly",
+    "sidebar_disable_expand": False,
+
+    # ===== Additional Options =====
+    "theme_switch": True,                    # Allow dark/light mode toggle
     "button_classes": {
-        "primary": "btn-primary",
-        "secondary": "btn-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success"
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
+        "warning": "btn-outline-warning",
+        "danger": "btn-outline-danger",
+        "success": "btn-outline-success"
     }
 }

@@ -24,7 +24,7 @@ class SkillAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('name',)
         }),
-        ('Statistika (o‘qish uchun)', {
+        ('Statistika (o\'qish uchun)', {
             'classes': ('collapse',),
             'fields': ()
         }),
@@ -55,7 +55,8 @@ class ExperienceAdmin(admin.ModelAdmin):
         if obj.skills.exists():
             return ", ".join([skill.name for skill in obj.skills.all()[:5]])
         return "—"
-    skills_list.short_description = "Asosiy ko‘nikmalar"
+    skills_list.short_description = "Asosiy ko'nikmalar"
+
     def is_current_badge(self, obj):
         """Hozirda ishlaydimi"""
         if obj.is_current:
@@ -64,6 +65,7 @@ class ExperienceAdmin(admin.ModelAdmin):
             )
         return "—"
     is_current_badge.short_description = "Holati"
+
     def company_link(self, obj):
         """Company URL bor bo'lsa link chiqarish"""
         if obj.company_url:
@@ -89,7 +91,7 @@ class ExperienceAdmin(admin.ModelAdmin):
 
     # Fieldsetlar — tartib va guruhlash
     fieldsets = (
-        ('Asosiy ma’lumotlar', {
+        ('Asosiy ma\'lumotlar', {
             'fields': (
                 ('company_name', 'company_url'),
                 ('position', 'is_current'),
@@ -109,9 +111,7 @@ class ExperienceAdmin(admin.ModelAdmin):
     readonly_fields = ('duration', 'created_at', 'updated_at')
 
 
-# ======================
 # Portfolio Admin
-# ======================
 @admin.register(Portfolio)
 class PortfolioAdmin(admin.ModelAdmin):
     list_display = (
@@ -128,10 +128,10 @@ class PortfolioAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     ordering = ('-is_future', 'title')
     filter_horizontal = ('tech_skills',)
-    date_hierarchy = 'created_at'  # sana bo'yicha navigatsiya
+    date_hierarchy = 'created_at'
 
-    # Rasmni kichik ko'rinishda chiqarish
     def thumbnail(self, obj):
+        """Rasmni kichik ko'rinishda chiqarish"""
         if obj.image:
             return format_html(
                 '<img src="{}" style="max-height: 60px; border-radius: 4px;" />',
@@ -141,6 +141,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     thumbnail.short_description = "Rasm"
 
     def tech_skills_list(self, obj):
+        """Texnologiyalarni ko'rsatish"""
         skills = obj.tech_skills.all()[:6]
         if skills:
             return ", ".join([s.name for s in skills]) + ("..." if obj.tech_skills.count() > 6 else "")
@@ -148,6 +149,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     tech_skills_list.short_description = "Texnologiyalar"
 
     def is_future_badge(self, obj):
+        """Loyiha statusi"""
         if obj.is_future:
             return format_html(
                 '<span style="background:#ffc107;color:#000;padding:4px 8px;border-radius:12px;font-weight:bold;">🚀 Kelasi</span>'
@@ -158,6 +160,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     is_future_badge.short_description = "Status"
 
     def project_link(self, obj):
+        """Loyiha havolasi"""
         if obj.project_url:
             return format_html(
                 '<a href="{}" target="_blank">🌐</a>',
@@ -167,6 +170,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     project_link.short_description = "Loyiha"
 
     def github_link(self, obj):
+        """GitHub havolasi"""
         if obj.github_url:
             return format_html(
                 '<a href="{}" target="_blank">🐙</a>',
@@ -175,20 +179,18 @@ class PortfolioAdmin(admin.ModelAdmin):
         return "—"
     github_link.short_description = "GitHub"
 
-    # Qo'shimcha maydonlar
-    readonly_fields = ('thumbnail_preview',)
-
     def thumbnail_preview(self, obj):
+        """Rasm katta ko'rinish"""
         if obj.image:
             return format_html(
                 '<img src="{}" style="max-width: 400px; border: 1px solid #ddd; border-radius: 8px;" />',
                 obj.image.url
             )
         return "Rasm yuklanmagan"
-    thumbnail_preview.short_description = "Rasm (katta ko'rinish)"
+    thumbnail_preview.short_description = "Rasm (katta ko\'rinish)"
 
     fieldsets = (
-        ('Asosiy ma’lumotlar', {
+        ('Asosiy ma\'lumotlar', {
             'fields': (
                 ('title', 'is_future'),
                 ('image', 'thumbnail_preview'),
@@ -197,10 +199,10 @@ class PortfolioAdmin(admin.ModelAdmin):
         }),
         ('Tavsif va texnologiyalar', {
             'fields': ('description', 'tech_skills'),
-        }),        ('Vaqt metadatasi (o\'qish uchun)', {
-            'classes': ('collapse',),
-            'fields': ('created_at', 'updated_at'),
-        }),    )
+        }),
+    )
+
+    readonly_fields = ('thumbnail_preview', 'created_at', 'updated_at')
 
 
 # ======================
@@ -221,8 +223,8 @@ class MessageAdmin(admin.ModelAdmin):
     date_hierarchy = 'sent_at'
     ordering = ('-sent_at',)
 
-    # Qo'shimcha chiroyli maydonlar
     def email_link(self, obj):
+        """Email havolasi"""
         return format_html(
             '<a href="mailto:{}">{}</a>',
             obj.email, obj.email
@@ -230,9 +232,10 @@ class MessageAdmin(admin.ModelAdmin):
     email_link.short_description = "Email"
 
     def is_read_badge(self, obj):
+        """Xabar holati"""
         if obj.is_read:
             return format_html(
-                '<span style="background:#28a745;color:white;padding:4px 8px;border-radius:12px;">O‘qilgan</span>'
+                '<span style="background:#28a745;color:white;padding:4px 8px;border-radius:12px;">O\'qilgan</span>'
             )
         return format_html(
             '<span style="background:#dc3545;color:white;padding:4px 8px;border-radius:12px;font-weight:bold;">Yangi</span>'
@@ -240,11 +243,11 @@ class MessageAdmin(admin.ModelAdmin):
     is_read_badge.short_description = "Holati"
     is_read_badge.allow_tags = True
 
-    # O'qilmagan xabarlarni avtomatik belgilash
     def mark_as_read(self, request, queryset):
+        """O'qilmagan xabarlarni avtomatik belgilash"""
         updated = queryset.update(is_read=True)
-        self.message_user(request, f"{updated} ta xabar o‘qilgan deb belgilandi.")
-    mark_as_read.short_description = "Tanlanganlarni o‘qilgan deb belgilash"
+        self.message_user(request, f"{updated} ta xabar o'qilgan deb belgilandi.")
+    mark_as_read.short_description = "Tanlanganlarni o'qilgan deb belgilash"
 
     actions = ['mark_as_read']
 
@@ -259,8 +262,8 @@ class MessageAdmin(admin.ModelAdmin):
 
     readonly_fields = ('name', 'email', 'subject', 'body', 'sent_at')
 
-    # Xabarni ochganda avtomatik o'qilgan deb belgilash
     def change_view(self, request, object_id, form_url='', extra_context=None):
+        """Xabarni ochganda avtomatik o'qilgan deb belgilash"""
         response = super().change_view(request, object_id, form_url, extra_context)
         if object_id:
             Message.objects.filter(id=object_id, is_read=False).update(is_read=True)
