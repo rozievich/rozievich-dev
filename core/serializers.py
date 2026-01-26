@@ -6,7 +6,8 @@ from .models import Skill, Experience, Portfolio, Message
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
     
 
 class ExperienceSerializer(serializers.ModelSerializer):
@@ -16,8 +17,10 @@ class ExperienceSerializer(serializers.ModelSerializer):
         model = Experience
         fields = [
             'id', 'company_name', 'company_url', 'position',
-            'skills', 'start_date', 'end_date', 'description'
+            'skills', 'start_date', 'end_date', 'description',
+            'is_current', 'created_at', 'updated_at'
         ]
+        read_only_fields = ['created_at', 'updated_at']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
@@ -27,8 +30,10 @@ class PortfolioSerializer(serializers.ModelSerializer):
         model = Portfolio
         fields = [
             'id', 'title', 'image', 'description',
-            'project_url', 'tech_skills', 'is_future', 'github_url'
+            'project_url', 'tech_skills', 'is_future', 'github_url',
+            'created_at', 'updated_at'
         ]
+        read_only_fields = ['created_at', 'updated_at']
 
 
 class MessageSerializer(serializers.ModelSerializer):

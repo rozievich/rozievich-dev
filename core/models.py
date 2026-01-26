@@ -4,6 +4,11 @@ from django.db import models
 # Skill model to represent individual skills
 class Skill(models.Model):
     name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.name
@@ -18,6 +23,12 @@ class Experience(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     description = models.TextField()
+    is_current = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-start_date']
 
     def __str__(self):
         return f"{self.position} at {self.company_name}"
@@ -33,6 +44,11 @@ class Portfolio(models.Model):
     tech_skills = models.ManyToManyField(Skill, related_name='portfolio_items')
     is_future = models.BooleanField(default=False)
     github_url = models.URLField(max_length=300, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title

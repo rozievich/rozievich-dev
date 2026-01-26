@@ -37,6 +37,7 @@ class ExperienceAdmin(admin.ModelAdmin):
     list_display = (
         'company_name',
         'position',
+        'is_current_badge',
         'start_date',
         'end_date',
         'duration',
@@ -44,7 +45,7 @@ class ExperienceAdmin(admin.ModelAdmin):
         'company_link'
     )
     list_display_links = ('company_name', 'position')
-    list_filter = ('start_date', 'end_date')
+    list_filter = ('is_current', 'start_date', 'end_date')
     search_fields = ('company_name', 'position', 'description')
     ordering = ('-start_date',)
     filter_horizontal = ('skills',)
@@ -55,7 +56,14 @@ class ExperienceAdmin(admin.ModelAdmin):
             return ", ".join([skill.name for skill in obj.skills.all()[:5]])
         return "—"
     skills_list.short_description = "Asosiy ko‘nikmalar"
-
+    def is_current_badge(self, obj):
+        """Hozirda ishlaydimi"""
+        if obj.is_current:
+            return format_html(
+                '<span style="background:#28a745;color:white;padding:4px 8px;border-radius:12px;font-weight:bold;">🔴 Hozir</span>'
+            )
+        return "—"
+    is_current_badge.short_description = "Holati"
     def company_link(self, obj):
         """Company URL bor bo'lsa link chiqarish"""
         if obj.company_url:
@@ -84,17 +92,21 @@ class ExperienceAdmin(admin.ModelAdmin):
         ('Asosiy ma’lumotlar', {
             'fields': (
                 ('company_name', 'company_url'),
-                ('position',),
+                ('position', 'is_current'),
                 ('start_date', 'end_date'),
             )
         }),
-        ('Tavsif va ko‘nikmalar', {
+        ('Tavsif va ko'nikmalar', {
             'fields': ('description', 'skills'),
+        }),
+        ('Vaqt metadatasi (o\'qish uchun)', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
         }),
     )
 
     # Qo'shimcha optimallashtirish
-    readonly_fields = ('duration',)  # faqat ko'rish uchun (admin o'zgartira olmaydi)
+    readonly_fields = ('duration', 'created_at', 'updated_at')
 
 
 # ======================
@@ -106,7 +118,7 @@ class PortfolioAdmin(admin.ModelAdmin):
         'title',
         'thumbnail',
         'tech_skills_list',
-        'is_future',
+        'is_future_badge',
         'project_link',
         'github_link',
         'created_at'
@@ -134,6 +146,16 @@ class PortfolioAdmin(admin.ModelAdmin):
             return ", ".join([s.name for s in skills]) + ("..." if obj.tech_skills.count() > 6 else "")
         return "—"
     tech_skills_list.short_description = "Texnologiyalar"
+
+    def is_future_badge(self, obj):
+        if obj.is_future:
+            return format_html(
+                '<span style="background:#ffc107;color:#000;padding:4px 8px;border-radius:12px;font-weight:bold;">🚀 Kelasi</span>'
+            )
+        return format_html(
+            '<span style="background:#28a745;color:white;padding:4px 8px;border-radius:12px;">✓ Tayyoq</span>'
+        )
+    is_future_badge.short_description = "Status"
 
     def project_link(self, obj):
         if obj.project_url:
@@ -175,8 +197,10 @@ class PortfolioAdmin(admin.ModelAdmin):
         }),
         ('Tavsif va texnologiyalar', {
             'fields': ('description', 'tech_skills'),
-        }),
-    )
+        }),        ('Vaqt metadatasi (o\'qish uchun)', {
+            'classes': ('collapse',),
+            'fields': ('created_at', 'updated_at'),
+        }),    )
 
 
 # ======================
