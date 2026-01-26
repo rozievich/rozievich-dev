@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,6 +94,30 @@ REST_FRAMEWORK = {
     }
 }
 
+# CORS Settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://dev.rozievich.uz",
+    "https://dev.rozievich.uz",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+CORS_ALLOW_METHODS = [
+    'GET',
+    'OPTIONS',
+    'POST',
+]
 
 LANGUAGE_CODE = 'en-us'
 
@@ -113,12 +138,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 JAZZMIN_SETTINGS = {
     # Umumiy ko‘rinish
-    "site_title": "rozievich",
-    "site_header": "rozievich",
-    "site_brand": "rozievich",
+    "site_title": "Rozievich Admin",
+    "site_header": "Rozievich Portfolio",
+    "site_brand": "Rozievich",
     "site_logo": None,
     "site_icon": None,
-    "welcome_sign": "Xush kelibsiz, rozievich!",
+    "welcome_sign": "Xush kelibsiz, admin panelga!",
 
     "default_ui_tweaks": {
         "sidebar_nav_small_text": False,
@@ -149,8 +174,9 @@ JAZZMIN_SETTINGS = {
 
     # Top menu (foydali bo‘limlar uchun)
     "topmenu_links": [
-        {"name": "Asosiy sayt", "url": "https://dev.rozievich.uz", "new_window": True},
-        {"name": "GitHub", "url": "https://github.com/rozievich", "new_window": True},
+        {"name": "📱 Asosiy sayt", "url": "https://dev.rozievich.uz", "new_window": True},
+        {"name": "🐙 GitHub", "url": "https://github.com/rozievich", "new_window": True},
+        {"name": "📧 Email", "url": "mailto:oybek@rozievich.uz", "new_window": False},
     ],
 
     # Sidebar menyuni to‘liq sozlash (eng foydali qism)
@@ -165,21 +191,21 @@ JAZZMIN_SETTINGS = {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
-        "yourapp.skill": "fas fa-tools",
-        "yourapp.experience": "fas fa-briefcase",
-        "yourapp.portfolio": "fas fa-images",
-        "yourapp.message": "fas fa-envelope",
+        "core.skill": "fas fa-tools",
+        "core.experience": "fas fa-briefcase",
+        "core.portfolio": "fas fa-images",
+        "core.message": "fas fa-envelope",
     },
 
-    # Qo‘shimcha funksiyalar
+    # Qo'shimcha funksiyalar
     "related_modal_active": True,           # modal oynalar ochilishi
     "show_ui_builder": True,                # live UI sozlash (admin ichida)
     "changeform_format": "horizontal_tabs", # yoki single, vertical_tabs
     "changeform_format_overrides": {
-        "yourapp.portfolio": "collapsible", # portfolio uchun alohida ko‘rinish
+        "core.portfolio": "collapsible", # portfolio uchun alohida ko'rinish
     },
 
-    # Copyright va footer
+    # Copyright va footer | Rozievich Portfolio
     "copyright": "Oybek © 2025-2026",
     "show_ui_builder": True,
 }

@@ -96,7 +96,7 @@ class ExperienceAdmin(admin.ModelAdmin):
                 ('start_date', 'end_date'),
             )
         }),
-        ('Tavsif va ko'nikmalar', {
+        ('Tavsif va ko\'nikmalar', {
             'fields': ('description', 'skills'),
         }),
         ('Vaqt metadatasi (o\'qish uchun)', {
